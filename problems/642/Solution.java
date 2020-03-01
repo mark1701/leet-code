@@ -19,7 +19,7 @@ class AutocompleteSystem {
     
     public List<String> input(char c) {
         PriorityQueue<Suggestion> suggestions = new PriorityQueue<>(4);
-        //System.out.println("next ------");
+ 
         if(c == '#'){
             int frequency = (curNode == null) ? 1 : (curNode.getFrequency() + 1); 
             addSentence(sb.toString(), frequency);
