@@ -1,31 +1,31 @@
-class Solution {    
-    
-    public int trap(int[] height) {
-        if(height == null || height.length < 3) return 0;
-        
-        int maxL = 0, maxR = 0;
-        
-        int l = 0, r = height.length - 1;
-        int water = 0;
-        
-        while(l < r){
-            if(height[l] < height[r]){
-                if(height[l] >= maxL)
-                    maxL = height[l];
-                else
-                    water += maxL - height[l];
-
-                l++;
-            } else {
-                if(height[r] >= maxR)
-                    maxR = height[r];
-                else
-                    water += maxR - height[r];
-                r--;
-            }
-            
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> res = new ArrayList<>();
+        if(nums == null || nums.length == 0) {
+            res.add(new ArrayList<>());
+            return res;
         }
-        return water;
+        boolean[] used = new boolean[nums.length];
+        
+        permute(nums, res, used, new ArrayList<>());
+        return res;
     }
-
+    
+    private void permute(int[] nums, List<List<Integer>> res, boolean[] used, List<Integer> permutation){
+        
+        if(permutation.size() == nums.length){
+            res.add(new ArrayList<>(permutation));
+            return;
+        }
+        
+        for(int i = 0; i < nums.length; i++){
+            if(used[i]) continue;
+            permutation.add(nums[i]);
+            used[i] = true;
+            permute(nums, res, used, permutation);
+            used[i] = false;
+            permutation.remove(permutation.size() -1);
+        }       
+        
+    }
 }
