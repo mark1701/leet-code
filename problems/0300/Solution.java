@@ -1,30 +1,29 @@
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        int[][] memo = new int[nums.length][nums.length];
-        for(int[] a: memo)
-            Arrays.fill(a, -1);
+        if(nums == null || nums.length == 0) return 0;
+        int N = nums.length;
+        int[] dp = new int[N];
         
-        return lis(nums, -1, 0, memo);
-    }
-    
-    private int lis(int[] nums, int prev, int pos, int[][] memo){
-        
-        if(pos >= nums.length){
-            return 0;    
-        }
-        
-        if(memo[prev+1][pos] != -1){
-            return memo[prev+1][pos];
-        }
+        int len = 0;
+        for(int i = 0; i < N; i++){
+            if(len == 0) {
+                len++;
+                dp[len-1] = nums[i];
+                continue;
+            }
             
-        int t = 0;
-        if(prev < 0 || nums[pos] > nums[prev]){
-            t = 1 + lis(nums, pos, pos+1, memo);
+            int pos = Arrays.binarySearch(dp, 0 , len, nums[i]);
+            if(pos >= 0) continue;
+            int ip = -pos - 1;
+            
+            
+            if(ip == len){
+                //everything is smaller, need to create a new pile
+                len++;
+            }
+            dp[ip] = nums[i];
+            
         }
-        
-        int nt = lis(nums, prev, pos+1, memo);
-        
-        memo[prev+1][pos] = Math.max(t, nt); 
-        return memo[prev+1][pos];        
+        return len;
     }
 }

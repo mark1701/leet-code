@@ -1,26 +1,20 @@
 class Solution {
-    public int lengthOfLIS(int[] nums) {
-
-        if(nums == null || nums.length == 0) return 0;
+    public boolean increasingTriplet(int[] nums) {
+        if(nums == null || nums.length == 0) return false;
         
         int N = nums.length;
         
-        int[] dp = new int[N];
-        Arrays.fill(dp, 1);
+        int min1 = Integer.MAX_VALUE;
+        int min2 = Integer.MAX_VALUE;
         
         for(int i = 0; i < N; i++){
-            for(int j = 0; j < i; j++){
-                if(nums[j] < nums[i]){
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
-                }
-            }
+            if(nums[i] <= min1)
+                min1 = nums[i];
+            else if(nums[i] <= min2)
+                min2 = nums[i];
+            else
+                return true;            
         }
-        
-        int maxLen = 1;
-        for(int i = 0; i < N; i++)
-            if(dp[i] > maxLen)
-                maxLen = dp[i];
-        
-        return maxLen; 
-    }  
+        return false;
+    }
 }
